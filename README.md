@@ -96,6 +96,47 @@ x		DW      3 ; Word type variable
 ```
 ## 8086 Instructions 
 
+How can you read instruction set of 8086? 
+First of all, no need to memorize the instruciton. When you need an instruction, you have to open the instruction set first.
+
+<b>DADDR -> </b> Data memory address operands identified<br/>
+<b>RB -> </b> Any one of the eight byte registers: AH. AL BH. BL CH. CL DH. or DL<br/>
+<b>RW -> </b> Any one of the eight 16-bit registers: AX. BX. CX. DX. SP. BP. SI. or DI<br/>
+<b>EA -> </b> Effective data memory address using any of the memory addressing options<br/>
+<table style="width:100%">
+  <tr>
+    <th>Mnemonic</th>
+    <th>Operand(s)</th>
+    <th>Object Code</th>
+    <th>Clock Cycles</th>
+    <th>Operation Performed</th>
+  </tr>
+  <tr>
+    <td>MOV</td>
+    <td>RW,DADDR</td>
+    <td>88 aadddbbb [DISP][DISP]</td>
+    <td>8+EA</td>
+    <td>[RW] <- [EA]<br/> Load 16 bits of data from the data memory word addressed by DADDR to
+register RW</td>    
+  </tr>
+  <tr>
+    <td>ADD</td>
+    <td>RB,DADDR</td>
+    <td>02 aadddbbb [DISP][DISP] </td>
+    <td>9+EA</td>
+    <td>[RB] <- [EA] + [RB] <br/> Add the contents of the data byte addressed by DADDR to register RB</td>    
+  </tr>
+  <tr>
+    <td>MUL</td>
+    <td>AL,DADDR</td>
+    <td>F6 aa100bbb [DISP][DISP] </td>
+    <td>(76-83)+EA</td>
+    <td>[AX] <- [AL] • [EA]  <br/> Multiply the 8-bit contents of register AL by the contents of the m~mory byte
+addressed by DADDR. Treat both numbers as unsigned binary numbers. Store
+the 16-bit product in AX </td>    
+  </tr>
+</table>
+
 <b><i>Check out Instruction Set of 8086 for more</i></b>
 
 ### Data Transfer Instructions
