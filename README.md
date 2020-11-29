@@ -185,21 +185,89 @@ the 16-bit product in AX </td>
 <b><i>Check out Instruction Set of 8086 for more</i></b>
 
 ### Data Transfer Instructions
+
 <b>MOV</b> − Used to copy the byte or word from the provided source to the provided destination.<br/>
+
 ```assembly
 MOV AL, FAH; Transfer the hexadecimal value FAH in AL register
 MOV BL, 10110100b; Transfer the hexadecimal value 10110100b in BL register
 MOV CX, 5; Transfer the octal value 5 in CX register
+
+MOV AL, var1
+MOV AH, AL
+MOV Myvar, 12
+
 ```
 
-
-<b>PUSH</b> − Used to put a word at the top of the stack.<br/>
-<b>POP</b> − Used to get a word from the top of the stack to the provided location.<br/>
+Let <b>AX</b> : 4532H = 
 ```assembly
-MOV CX, 5; CX = 5
-PUSH CX; CX = 5
-INC CX; CX = 6
-POP CX; CX = 5
+MOV Myvar, AX; [1001H] = AH = 45H
+              ;[1002H] = AL = 32H
+```
+<table style="width:100%">
+  <tr>
+    <th>Memory Adress</th>
+    <th>Before MOV</th>
+    <th>After MOV</th>
+  </tr>
+  <tr>  
+      <td>1003H</td>
+       <td>4FH</td>
+       <td>4FH</td>
+  </tr>
+  <tr>  
+      <td>1002H</td>
+      <td>0ABH</td>
+      <td><b>45H</b></td>
+  </tr>
+  <tr>  
+      <td>1001H Myvar -></td>
+      <td>53H</td>
+      <td><b>32H</b></td>
+  </tr>
+  <tr>  
+      <td>1000H</td>
+      <td>2CH</td>
+      <td>2CH</td>
+  </tr>
+</table>
+
+
+<b>LEA</b> - Loads offset address into the specified register.</br>
+
+```assembly
+LEA SI, Myvar ; SI = 1002H
+```
+
+<table style="width:100%">
+  <tr>
+    <th>Memory Adress</th>
+    <th>Value</th>
+  </tr>
+  <tr>  
+      <td>1003H</td>
+       <td>4FH</td>       
+  </tr>
+  <tr>  
+      <td><b>1002H</b> Myvar -></td>
+      <td>0ABH</td>     
+  </tr>
+  <tr>  
+      <td>1001H</td>
+      <td>53H</td>     
+  </tr>
+  <tr>  
+      <td>1000H</td>
+      <td>2CH</td>  
+  </tr>
+</table>
+
+<b>XCHG</b> - Exchanges the contents of the 16-bit or 8-bit specified register with the contents of AX register, specified register or memory locations.</br>
+
+```assembly
+MOV AX, 1234H; AX = 1234H
+MOV BX, 1BCDH; BX = 1BCDH
+XCHG AX, BX; AX = 1BCDH and BX = 1234H
 
 ```
 
@@ -223,18 +291,50 @@ DEC CX; CX = 5
 ```
 
 <b>MUL</b> − Used to multiply unsigned byte by byte/word by word.<br/>
+
+<table style="width:100%">
+  <tr>
+    <th>Type</th>
+    <th>Multiplied</th>
+    <th>Result</th>
+  </tr>
+  <tr>  
+       <td>8 bit</td>
+       <td>AL</td>       
+       <td>AX=[AH][AL]</td>       
+  </tr>
+
+   <tr>  
+       <td>16 bit</td>
+       <td>AX</td>       
+       <td>DX:AX=[DX][AX]</td>       
+  </tr>
+   <tr>  
+       <td>32 bit</td>
+       <td>EAX</td>       
+       <td>EAX=[EDX][EAX]</td>       
+  </tr>
+</table>
+
 ##### When two bytes are multiplied<br/>
 
 ###### The multiplicand is in the AL register, and the multiplier is a byte in the memory or in another register. The product is in AX. High-order 8 bits of the product is stored in AH and the low-order 8 bits are stored in AL.<br/>
+
+
+```assembly
+MOV AL, 10
+MOV DL, 25
+MUL DL; AL x DL = [AH][AL]
+
+```
 
 ##### When two one-word values are multiplied<br/>
 
 ###### The multiplicand should be in the AX register, and the multiplier is a word in memory or another register. For example, for an instruction like MUL DX, you must store the multiplier in DX and the multiplicand in AX.<br/>
 
 ```assembly
-MOV AL, 10
-MOV DL, 25
-MUL DL; AL x DL = [AH][AL]
+MOV BX, 10
+MUL BX; AX x BX = [DX][AX]
 
 ```
 
@@ -244,6 +344,19 @@ MOV BH, 0F2H; Load numerator in BH
 MOV AL, 4H; Load denominator in AL
 DIV BH; Divide BH by AL
 ```
+
+### Stack Instructions
+
+<b>PUSH</b> − Used to put a word at the top of the stack.<br/>
+<b>POP</b> − Used to get a word from the top of the stack to the provided location.<br/>
+```assembly
+MOV CX, 5; CX = 5
+PUSH CX; CX = 5
+INC CX; CX = 6
+POP CX; CX = 5
+
+```
+
 
 ## Adressing Methods
 
@@ -267,7 +380,7 @@ MOV CX, AX; CX = AX
 ### Direct Adressing
 In direct addressing, the address of the operand is given as a label. This label can be defined as word or byte.
 
-Let the value of myvar variable be 2F00H
+Let the value of myvar variable is 2F00H
 
 <table style="width:100%">
   <tr>
