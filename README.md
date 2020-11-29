@@ -27,7 +27,7 @@ Assembly language is a low-level programming language for a computer or other pr
 <b>SI</b> Source index - General addressing, source offset in string ops</br>
 <b>DI</b> Destination index - General addressing, destination in string ops</br>
 
-## Segment Registers
+## Segments
 <b>CS</b> Code segment - Segment to which IP refers</br>
 <b>SS</b> Stack segment - Segment to which SP refers</br>
 <b>DS</b> Data segment - General addressing, usually for program's data area</br>
@@ -45,6 +45,46 @@ Assembly language is a low-level programming language for a computer or other pr
 <b>AF</b> Auxiliary flag - Indicates adjustment is needed after BCD arithmetic</br>
 <b>PF</b> Parity flag - Indicates an even number of 1 bits</br>
 <b>CF</b> Carry flag - Indicates an arithmetic carry occurred</br>
+<table style="width:100%">
+  <tr>
+    <th>Flag</th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th>OF</th>
+    <th>DF</th>
+    <th>IF</th>
+    <th>TF</th>
+    <th>SF</th>
+    <th>ZF</th>
+    <th></th>
+    <th>AF</th>
+    <th></th>
+    <th>PF</th>
+    <th></th>
+    <th>CF</th>
+  </tr>
+  <tr>
+    <td>Bit</td>
+    <td>15</td>
+    <td>14</td>
+    <td>13</td>
+    <td>12</td>
+    <td>11</td>
+    <td>10</td>
+    <td>9</td>
+    <td>8</td>
+    <td>7</td>
+    <td>6</td>
+    <td>5</td>
+    <td>4</td>
+    <td>3</td>
+    <td>2</td>
+    <td>1</td>
+    <td>0</td>
+  </tr>
+</table>
 
 ![alt text](https://github.com/UlascanKilic/assembly-things/blob/master/img/flags.png)
 
