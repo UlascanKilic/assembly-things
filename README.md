@@ -367,7 +367,7 @@ MOV AH, myvar[SI]; AH <- 53H
 If we can define myvar as word type
 
 ```assembly
-myvar DW 5341H,4553H, 424DH, 594CH; Byte type variable
+myvar DW 5341H,4553H, 424DH, 594CH; Word type variable
 ```
 Now we have to increase our index by two because now we have a word type array. 
 
