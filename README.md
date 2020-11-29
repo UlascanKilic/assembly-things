@@ -345,6 +345,255 @@ MOV AL, 4H; Load denominator in AL
 DIV BH; Divide BH by AL
 ```
 
+<b>CMP</b> - CMP is used to compare two operands and the value of the operands does not change as a result of the comparison. Only the result of the flag changes. Conditional branching instructions are used after the CMP.
+
+Its simply does : operand1 - operand2 and you can see the result in the flags.
+
+
+<table style="width:100%">
+  <tr>
+    <th>Condition</th>
+    <th>Signed Comparison</th>
+    <th>Unsigned Comparison</th>
+  </tr>
+  <tr>  
+       <td>opr1 > opr2</td>
+       <td>ZF = 0</td>       
+       <td>CF = 0 and ZF = 0</td>       
+  </tr>
+
+   <tr>  
+       <td>opr1 >= opr2</td>
+       <td>SF= OF </td>       
+       <td>CF = 0</td>       
+  </tr>
+   <tr>  
+       <td>opr1 = opr2</td>
+       <td>ZF = 1</td>       
+       <td>ZF = 1</td>       
+  </tr>
+  <tr>  
+       <td>opr1 < opr2</td>
+       <td>ZF = 1</td>       
+       <td>CF = 1 or ZF = 1</td>       
+  </tr>
+  <tr>  
+       <td>opr1 = opr2</td>
+       <td>SF != OF</td>       
+       <td>CF = 1</td>       
+  </tr>
+</table>
+
+
+
+### Branch Instructions
+
+Conditional execution in assembly language is accomplished by several looping and branching instructions. These instructions can change the flow of control in a program.
+
+#### Unconditional Branch Instructions
+
+Its like 'goto' statement in high level languages.
+
+<b>JMP</b> - The JMP instruction provides a label name where the flow of control is transferred immediately.
+
+In C:
+
+```c++
+int main() {
+
+   int i = 10;
+   
+   goto Label1;
+   
+   i = 55;
+   
+Label1:
+   printf("%d", i); // i = 10
+	
+}
+   
+```
+
+In Assembly:
+
+```assembly
+    MOV AL, 10;  
+    JMP Label1
+    MOV AL, 55;
+
+Label1:
+    . ; AL = 10
+    .
+    .
+
+```
+
+#### Conditional Branch Instructions
+
+This is performed by a set of jump instructions j<condition> depending upon the condition. The conditional instructions transfer the control by breaking the sequential flow and they do it by changing the offset value in IP.
+These instruction are used after the CMP.
+
+<table style="width:100%">
+  <tr>
+    <th>Instruction</th>
+    <th>Operands</th>
+    <th>Condition</th>
+  </tr>
+  <tr>  
+       <td>JZ/JE</td>
+       <td>opr1 - opr2 = 0</td>    
+       <td>ZF = 1</td>       
+  </tr>
+
+   <tr>  
+       <td>JNZ/JNE</td>
+       <td>opr1 - opr2 != 0</td>       
+       <td>ZF = 0</td>       
+  </tr>
+   <tr>  
+       <td>JS</td>
+       <td>opr1 - opr2 < 0</td>          
+       <td>SF = 1</td>       
+  </tr>
+  <tr>  
+       <td>JNS</td>
+       <td>opr1 - opr2 > 0</td>          
+       <td>SF = 0</td>       
+  </tr>
+  <tr>  
+       <td>JO</td>
+       <td>opr1 - opr2 = not between 127 and -128</td>       
+       <td>OF = 1</td>       
+  </tr>
+  <tr>  
+       <td>JNO</td>
+       <td>opr1 - opr2 = between 127 and -128</td>       
+       <td>OF = 0</td>       
+  </tr>
+  <tr>  
+       <td>JP/JPE</td>
+       <td>Even Parity</td>       
+       <td>PF = 1</td>       
+  </tr>
+  <tr>  
+       <td>JNP/JPO</td>
+       <td>Odd Parity</td>       
+       <td>PF = 0</td>       
+  </tr>
+</table>
+
+<b>JZ/JE</b> - Jump if op1-op2 = 0 (ZF = 1)</br>
+<b>JNZ/JNE</b> - Jump if op1-op2 != 0 (ZF = 0)
+```assembly
+    MOV AL, 5
+    MOV BL, 5
+    CMP AL,BL; if statement
+    JZ zero; true statement(op1 = op2)
+    MOV CX, 10; false statement(op1 != op2)
+    JMP exit
+zero: ;true statement
+    .
+    .
+    .
+exit:
+```
+<b>JS</b> - Jump if op1-op2 < 0 (SF = 1)</br>
+<b>JNS</b> - Jump if op1-op2 > 0 (SF = 0)
+
+
+```assembly
+    MOV AL, 5
+    MOV BL, 10
+    CMP AL,BL; if statement
+    JS sign; true statement (op1 < op2)
+    MOV CX, 10; false statement(op1 > op2)
+    JMP exit
+
+sign: ;true statement
+    .
+    .
+    .
+exit:
+```
+<b>JO</b> - Jump if op1-op2 is <b>not</b> between 127 and -128</br>
+<b>JNO</b> - Jump if op1-op2 is between 127 and -128
+```assembly
+    MOV AL, -5
+    MOV DL, 127
+    CMP AL,DL; if statement (-5 - 127 = -132)
+    JO overflow; true statement
+    MOV BL,12; false statement 
+    JMP exit
+overflow: ; true statement
+    MOV CX,10
+exit:  
+```
+
+### Conditional branching instructions used with unsigned numbers
+When comparing unsigned numbers, it is checked whether one value is above or below the other.
+
+<table style="width:100%">
+  <tr>
+    <th>Instruction</th>
+    <th>Operands</th>
+    <th>Condition</th>
+  </tr>
+  <tr>  
+       <td>JB/JNAE/JC</td>
+       <td>opr1 - opr2 < 0</td>    
+       <td>CF = 1</td>       
+  </tr>
+
+   <tr>  
+       <td>JA/JNBE</td>
+       <td>opr1 - opr2 > 0</td>       
+       <td>ZF = 0 and CF = 0</td>       
+  </tr>
+   <tr>  
+       <td>JAE/JNB/JNC</td>
+       <td>opr1 - opr2 >= 0</td>          
+       <td>CF = 1</td>       
+  </tr>
+  <tr>  
+       <td>JBE/JNA</td>
+       <td>opr1 - opr2 <= 0</td>          
+       <td>CF = 1 and ZF = 1</td>       
+  </tr>
+</table>
+
+### Conditional branching instructions used with signed numbers
+When comparing signed numbers, it is checked whether one value is greater or less than another.
+
+<table style="width:100%">
+  <tr>
+    <th>Instruction</th>
+    <th>Operands</th>
+    <th>Condition</th>
+  </tr>
+  <tr>  
+       <td>JL/JNGE</td>
+       <td>opr1 - opr2 < 0</td>    
+       <td>SF != OF and ZF = 0</td>       
+  </tr>
+
+   <tr>  
+       <td>JNL/JGE</td>
+       <td>opr1 - opr2 >= 0</td>       
+       <td>SF = OF</td>       
+  </tr>
+   <tr>  
+       <td>JLE/JNG </td>
+       <td>opr1 - opr2 <= 0</td>          
+       <td>SF != OF and ZF = 1</td>       
+  </tr>
+  <tr>  
+       <td>JG/JNLE</td>
+       <td>opr1 - opr2 > 0</td>          
+       <td>SF = OF and ZF = 0</td>       
+  </tr>
+</table>
+
+
 ### Stack Instructions
 
 <b>PUSH</b> − Used to put a word at the top of the stack.<br/>
