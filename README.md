@@ -97,7 +97,7 @@ x		DW      3 ; Word type variable
 ## 8086 Instructions 
 
 How can you read instruction set of 8086? 
-First of all, no need to memorize the instruciton. When you need an instruction, you have to open the instruction set first.
+First of all, no need to memorize the all instrucitons. When you need an instruction, you have to open the instruction set first.
 
 <b>DADDR -> </b> Data memory address operands identified<br/>
 <b>RB -> </b> Any one of the eight byte registers: AH. AL BH. BL CH. CL DH. or DL<br/>
