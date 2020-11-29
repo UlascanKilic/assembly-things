@@ -90,9 +90,54 @@ Assembly language is a low-level programming language for a computer or other pr
 
 ## Variables
 
+The syntax for storage allocation statement for initialized data is 
+
 ```assembly
+[variable-name]    define-directive    initial-value
+```
+
+<table style="width:100%">
+  <tr>
+    <th>Directive</th>
+    <th>Explanation</th>
+    <th>Storage</th>
+  </tr>
+  <tr>
+    <td>DB</td>
+    <td>Define Byte</td>
+    <td>1 Byte</td>
+  </tr>
+<tr>
+    <td>DW</td>
+    <td>Define Word</td>
+    <td>2 Bytes</td>
+  </tr>
+<tr>
+    <td>DD</td>
+    <td>Define Doubleword</td>
+    <td>4 Bytes</td>
+  </tr>
+<tr>
+    <td>DQ</td>
+    <td>Define Quadword</td>
+    <td>8 Bytes</td>
+  </tr>
+<tr>
+    <td>DT</td>
+    <td>Define Ten Bytes</td>
+    <td>10 Bytes</td>
+  </tr>
+
+</table>
+
+```assembly
+var1            DB      'a'
+var2            DB      25
+var3            DW      693FH
+var4            DD      12897F3CH
+var5            DQ      123456789H
 array		DB	12,4,5,2,7,9,1,8 ; Byte type array
-x		DW      3 ; Word type variable
+
 ```
 ## 8086 Instructions 
 
@@ -367,7 +412,7 @@ MOV AH, myvar[SI]; AH <- 53H
 If we can define myvar as word type
 
 ```assembly
-myvar DW 5341H,4553H, 424DH, 594CH; Word type variable
+myvar DW 5341H,4553H, 424DH, 594CH; Byte type variable
 ```
 Now we have to increase our index by two because now we have a word type array. 
 
@@ -396,5 +441,6 @@ MOV AX, myvar[SI]; AX <- 4553H
 ####  [Insertion Sort](https://github.com/UlascanKilic/assembly-things/tree/master/insertion%20sort)
 
 
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
+## References
+https://www.tutorialspoint.com/assembly_programming/
+https://www.javatpoint.com/instruction-set-of-8086
