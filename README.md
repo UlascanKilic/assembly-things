@@ -61,9 +61,9 @@ x		DW      3 ; Word type variable
 ### Data Transfer Instructions
 <b>MOV</b> − Used to copy the byte or word from the provided source to the provided destination.<br/>
 ```assembly
-MOV AL, FAH; Hexadecimal number
-MOV BL, 10110100b; Binary number
-MOV CX, 5; Decimal number
+MOV AL, FAH; Transfer the hexadecimal value FAH in AL register
+MOV BL, 10110100b; Transfer the hexadecimal value 10110100b in BL register
+MOV CX, 5; Transfer the octal value 5 in CX register
 ```
 
 
