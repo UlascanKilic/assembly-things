@@ -200,7 +200,195 @@ MOV AL, 4H; Load denominator in AL
 DIV BH; Divide BH by AL
 ```
 
+## Adressing Methods
 
+### Immediate Adressing
+In this method, the second operand is a number or ASCII value and operand types must be the same.
+
+```assembly
+MOV AH, 06H; AH = 06H
+MOV CX, 1FFCH; CX = 1FFCH
+MOV AL, 'A'; AL = 41H
+```
+
+### Register Adressing
+Both operands must be registers.
+
+```assembly
+MOV AH, AL; AH = AL
+MOV CX, AX; CX = AX
+```
+
+### Direct Adressing
+In direct addressing, the address of the operand is given as a label. This label can be defined as word or byte.
+
+Let the value of myvar variable be 2F00H
+
+<table style="width:100%">
+  <tr>
+      <th>Memory Block</th>
+      <th>Value</th>
+  </tr>
+  <tr>  
+       <td>0004H</td>
+       <td>&nbsp; </td>
+  </tr>
+
+  <tr>  
+      <td>0003H</td>
+       <td>2FH</td>
+  </tr>
+  <tr>  
+      <td>0002H myvar -></td>
+      <td>00H</td> 
+  </tr>
+
+  <tr> 
+      <td>0001H</td>
+      <td>&nbsp; </td> 
+  </tr>
+</table>
+
+If 'myvar' defined as a word
+
+```assembly
+
+MOV AX, myvar; AX <- 2F00H
+```
+If 'myvar' defined as a byte
+
+```assembly
+
+MOV AL, myvar; AL <- 00H
+```
+
+## Register Indirect Adressing
+In register indirect adressing the address of the operand in memory is indicated by an index register.
+
+<table style="width:100%">
+  <tr>
+      <th>Memory Block</th>
+      <th>Value</th>
+  </tr>
+  <tr>  
+       <td>0004H</td>
+       <td>&nbsp; </td>
+  </tr>
+
+  <tr>  
+      <td>0003H</td>
+       <td>4AH</td>
+  </tr>
+  <tr>  
+      <td>0002H <- myvar</td>
+      <td>13H</td> 
+  </tr>
+
+  <tr> 
+      <td>0001H</td>
+      <td>&nbsp; </td> 
+  </tr>
+<tr> 
+      <td>0000H</td>
+      <td>&nbsp; </td> 
+  </tr>
+</table>
+
+
+```assembly
+
+LEA DI, myvar; DI <- 0002H
+MOV AX, [DI]; AX <- 4A13H
+```
+
+## Direct Index Adressing
+In direct index adressing, memory addresses are accessed by an array.<br/>
+Let the value of myvar variable is:
+```assembly
+myvar DB 41H, 53H, 53H,45H, 4DH, 42H, 4CH, 59H ; Byte type variable
+```
+
+<table style="width:100%">
+  <tr>
+      <th>Memory Block</th>
+      <th>Value</th>
+  </tr>
+  <tr>  
+       <td>0107H</td>
+       <td>59H</td>
+  </tr>
+
+  <tr>  
+      <td>0106H</td>
+       <td>4CH</td>
+  </tr>
+  <tr>  
+      <td>0105H</td>
+      <td>42H</td> 
+  </tr>
+
+  <tr> 
+      <td>0104H</td>
+      <td>4DH</td> 
+  </tr>
+<tr> 
+      <td>0103H</td>
+      <td>45H</td> 
+  </tr>
+<tr> 
+      <td>0102H</td>
+      <td>53H</td> 
+  </tr>
+<tr> 
+      <td>0101H</td>
+      <td>53H</td> 
+  </tr>
+<tr> 
+      <td>0100H myvar -> </td>
+      <td>41H</td> 
+  </tr>
+</table>
+
+
+We can use SI, DI or BX registers as indices to access the myvar array.
+If we try to access the first value of the array
+
+```assembly
+
+XOR SI,SI; SI -> 0000H
+MOV AL, myvar[SI]; AL <- 41H
+
+;If you try to access next value
+
+INC SI; SI <- 0001H
+MOV AH, myvar[SI]; AH <- 53H
+```
+
+If we can define myvar as word type
+
+```assembly
+myvar DW 5341H,4553H, 424DH, 594CH; Byte type variable
+```
+Now we have to increase our index by two because now we have a word type array. 
+
+```assembly
+
+;If you increase index by one, you cant access the correct value.
+
+XOR SI,SI; SI -> 0000H
+MOV AX, myvar[SI]; AX <- 5341H
+
+INC SI; SI -> 0001H
+MOV AX, myvar[SI]; AX <- 5353H 
+
+;If you increase index by two.
+
+XOR SI,SI; SI -> 0000H
+MOV AX, myvar[SI]; AX <- 5341H
+
+ADD SI, 2; SI -> 0002H
+MOV AX, myvar[SI]; AX <- 4553H
+```
 
 ## Sorting Algorithms 
 
