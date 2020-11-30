@@ -18,14 +18,14 @@ MAIN		PROC FAR
 			MOV SI,1
 			XOR DI,DI
 			MOV CX,n
-			;insertion sort 
-fordongu:	MOV AL, array[SI]
+		 	;insertion sort 
+fordongu:	        MOV AL, array[SI]
 			
 			DEC SI
 			MOV DI,SI  
-		    INC SI
+		        INC SI
 			
-whl:		CMP DI,0
+whl:		        CMP DI,0
 			JNGE L1
 			CMP array[DI],AL
 			JNG L1
